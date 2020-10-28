@@ -66,6 +66,7 @@
     <Compile Include="Assets\Scripts\Enemy.cs" />
     <Compile Include="Assets\Scripts\Laser.cs" />
     <Compile Include="Assets\Scripts\Player.cs" />
+    <Compile Include="Assets\Scripts\Powerup.cs" />
     <Compile Include="Assets\Scripts\SpawnManager.cs" />
     <None Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\2D_Galaxy_Assets\Materials\Shaders\Galaxy.shader" />
     <None Include="Assets\GameDevHQ\FileBase\Plugin\README.txt" />
@@ -615,6 +616,9 @@
     <Reference Include="Unity.VSCode.Editor">
       <HintPath>C:/Users/jmacnut/Documents/GameDevHQ/Space Shooter 2D/Library/ScriptAssemblies/Unity.VSCode.Editor.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.InputSystem">
+      <HintPath>C:/Users/jmacnut/Documents/GameDevHQ/Space Shooter 2D/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
+    </Reference>
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/jmacnut/Documents/GameDevHQ/Space Shooter 2D/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>
@@ -635,9 +639,6 @@
     </Reference>
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/jmacnut/Documents/GameDevHQ/Space Shooter 2D/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
-    </Reference>
-    <Reference Include="Unity.InputSystem">
-      <HintPath>C:/Users/jmacnut/Documents/GameDevHQ/Space Shooter 2D/Library/ScriptAssemblies/Unity.InputSystem.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>

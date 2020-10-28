@@ -14,9 +14,13 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
+    [SerializeField]
+    private float _speedMultiplier = 2.0f;
 
     [SerializeField]
     private GameObject _laserPrefab;   // from Prefabs folder (not heirarchy!)
+    [SerializeField]
+    private GameObject _tripleShotLaserPrefab;
 
     [SerializeField]
     private float _fireRate = 0.15f;
@@ -24,12 +28,16 @@ public class Player : MonoBehaviour
     private float _nextFire = -1.0f;
 
     [SerializeField]
-    private float _waitTime;
+    private float _waitTime = 5.0f;
 
     [SerializeField]
     private int _lives = 3;
 
     private SpawnManager _spawnManager;
+
+    private bool _isTripleShotActive = false;
+    private bool _isSpeedBoostActive = false;
+    //private bool _isShieldBoostActive = false;
 
     void Start()
     {
@@ -55,71 +63,34 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        // if space key is pressed
-        //    spawn gameObject limited by cool-down timer
-        Debug.Log("Instantiate: Space key was pressed.");
-        Vector3 offset = new Vector3(0, 0.8f, 0);   // between player and laser launch point
         _nextFire = Time.time + _fireRate;
-        Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+
+        Vector3 offset = new Vector3(0, 1.05f, 0);   // between player and laser launch point
+
+        if (_isTripleShotActive == true)
+        {
+            Instantiate(_tripleShotLaserPrefab, transform.position + offset, Quaternion.identity);
+        }
+        else
+        {
+            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+        }
+
     }
 
     void CalculateMovement()
     {
-        // Movement Basics:
-        // 1 unit (Unity) = 1 meter (in the real world)
-
-        // "speed of sound" movement!  1 meter/frame
-        //transform.Translate(Vector3.right);         // pre-defined, so 'new' is not required
-        //transform.Translate(new Vector3(1, 0, 0));  // same as above, change x=-1 to go left
-
-        // normal speed movement default is 1 meter/second
-        // deltaTim is the time from the last frame to the current frame
-        //transform.Translate(Vector3.right * Time.deltaTime);
-
-        // convert to speed to 5 meters/second, multiply by _speed = 5.0f
-        // by the distributive property:
-        //     new Vector3(1, 0, 0) * 5.0 * real time
-        //  => new Vector3(5, 0, 0) * real time
-        // Try adjusting (sliding over the Speed variable in the Inspector)
-        //transform.Translate(Vector3.right * _speed * Time.deltaTime);   // _speed = 5.0f
-
-        // Controlling Movement with the keyboard:
-        // using UnityEngine.Input
-        // see Edit - Project Settings - Input Manager
-        // Note: Unity new Input System package (Window - Package Manager) is now recommended 
-
-        // need to get the current postion of the object this script is attached to
-        // Horizontal Movement: use the left and right arrow keys or A and D keys
-        // Vertical Movement: use the up and down arrow keys or W and S keys
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        //transform.Translate(Vector3.right * horizontalInput * _speed * Time.deltaTime);
-        //transform.Translate(Vector3.up * verticalInput * _speed * Time.deltaTime);
-
-        // one-liner
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
         transform.Translate(direction * _speed * Time.deltaTime);
-
-        // Player Vertical (y) Bounds:
-        // if y > 0, then set y = 0
-        // if y <= - 3.8, set y = -3.8f
-
-        //if (transform.position.y > 0)
-        //{
-        //    transform.position = new Vector3(transform.position.x, 0, 0);
-        //}
-        //else if (transform.position.y <= -3.8f)
-        //{
-        //    transform.position = new Vector3(transform.position.x, -3.8f, 0);
-        //}
-         
-        // one-liner uses clamping (specify min and max values)
+        
+        // vertical bounds
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
 
-        // Player Horizontal (x) bounds (wrap around):
-        // if x > 11.4f, then x = -11.4f
-        // if x < -11.4f, then x = 11.4f
+        // horizontal bounds
         if (transform.position.x > 11.4f)
         {
             transform.position = new Vector3(-11.4f, transform.position.y, 0);
@@ -128,8 +99,6 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.4f, transform.position.y, 0);
         }
-
-        // note: no clamping for x position due to wrap around
     }
 
     public void Damage()
@@ -141,5 +110,31 @@ public class Player : MonoBehaviour
              _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void ActivateTripleShot()
+    {
+        _isTripleShotActive = true;
+        StartCoroutine(TripleShotPowerDownRoutine());
+    }
+    
+    IEnumerator TripleShotPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(_waitTime);
+        _isTripleShotActive = false;
+    }
+
+    public void ActivateSpeedBoost()
+    {
+        _isSpeedBoostActive = true;
+        _speed *= _speedMultiplier;
+        StartCoroutine(SpeedBoostPowerDownRoutine());
+    }
+
+    IEnumerator SpeedBoostPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5.0f);
+        _isSpeedBoostActive = false;
+        _speed /= _speedMultiplier;
     }
 }

@@ -16,21 +16,21 @@ public class Enemy : MonoBehaviour
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y <= -5.0f)
+        if (transform.position.y <= -4.5f)
         { 
             // "respawn" (reuse) at top if was not destroyed
-            // bonus: with a new random x position
+            // bonus: at a new random x position
             float randomX = Random.Range(-8.0f, 8.0f);
             transform.position = new Vector3(randomX, 7.0f, 0);
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log ("Hit: " + other.transform.name);
 
         if (other.CompareTag("Player"))
-        //if (other.tag == "Player")
+        //if (other.tag == "Player") resource hog
         {
             // order matters!
             Player player = other.transform.GetComponent<Player>();
@@ -42,7 +42,7 @@ public class Enemy : MonoBehaviour
         }
 
         if (other.CompareTag("Laser"))
-        //if (other.tag == "Laser")
+        //if (other.tag == "Laser") resource hog
         {
             // order matters!
             Destroy(other.gameObject);
