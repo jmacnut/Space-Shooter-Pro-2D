@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using TMPro;
+//using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -37,7 +37,10 @@ public class Player : MonoBehaviour
 
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
-    //private bool _isShieldBoostActive = false;
+    private bool _isShieldsActive = false;
+
+    [SerializeField]
+    private GameObject _shieldsVisualizer;
 
     void Start()
     {
@@ -103,6 +106,13 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (_isShieldsActive == true)
+        {
+            _isShieldsActive = false;   // good for a single hit
+            _shieldsVisualizer.SetActive(false);
+            return;
+        }
+
         _lives--;
 
         if(_lives <= 0)
@@ -133,8 +143,21 @@ public class Player : MonoBehaviour
 
     IEnumerator SpeedBoostPowerDownRoutine()
     {
-        yield return new WaitForSeconds(5.0f);
+        yield return new WaitForSeconds(_waitTime);
         _isSpeedBoostActive = false;
         _speed /= _speedMultiplier;
+    }
+
+    public void ActivateShields()
+    {
+        _isShieldsActive = true;
+        _shieldsVisualizer.SetActive(true);
+        StartCoroutine(ShieldsPowerDownRoutine());
+    }
+
+    IEnumerator ShieldsPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(_waitTime);
+        _isShieldsActive = false;
     }
 }

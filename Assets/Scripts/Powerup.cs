@@ -48,7 +48,7 @@ public class Powerup : MonoBehaviour
                         break;
                     case 2:
                         Debug.Log("Collected Shield");
-                        //player.ActivateShieldBoost();
+                        player.ActivateShields();
                         break;
                     default:
                         Debug.Log("Invalid powerupID");

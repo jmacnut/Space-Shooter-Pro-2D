@@ -48,7 +48,7 @@ public class SpawnManager : MonoBehaviour
         while (_stopSpawning == false)
         {
             Vector3 spawnPos = new Vector3(Random.Range(-8.0f, 8.0f), 7.0f, 0f);
-            int randomPowerupIndex = Random.Range(0, 2); // extend to 3 when shields collection is implemented
+            int randomPowerupIndex = Random.Range(0, 3); // extend to 3 when shields collection is implemented
             //GameObject newPowerup = Instantiate(_TripleShotPowerupPrefab, spawnPos, Quaternion.identity);
             GameObject newPowerup = Instantiate(_powerupPrefabs[randomPowerupIndex], spawnPos, Quaternion.identity);
             _waitTimePowerup = Random.Range(3, 8);   // 3 to 7 seconds
