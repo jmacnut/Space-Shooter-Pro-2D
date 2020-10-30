@@ -42,6 +42,12 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _shieldsVisualizer;
 
+    [SerializeField]
+    private int _score;
+
+    [SerializeField]
+    private UIManager _uiManager;
+
     void Start()
     {
         // resets the transform's position for the object 
@@ -51,7 +57,13 @@ public class Player : MonoBehaviour
         
         if (_spawnManager == null)
         {
-            Debug.LogError("The Spawn Manager is full");
+            Debug.LogError("The Spawn Manager is NULL");
+        }
+
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        if (_uiManager == null)
+        {
+            Debug.LogError("The UIManager is NULL");
         }
     }
 
@@ -114,6 +126,7 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+        _uiManager.UpdateLives(_lives);
 
         if(_lives <= 0)
         {
@@ -159,5 +172,11 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_waitTime);
         _isShieldsActive = false;
+    }
+
+    public void AddScore(int points)
+    {
+        _score += points;
+        _uiManager.UpdateScore(_score);
     }
 }
