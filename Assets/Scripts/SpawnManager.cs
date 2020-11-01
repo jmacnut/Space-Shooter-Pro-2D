@@ -17,11 +17,8 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerupPrefabs;
 
-    //[Header("Triple Shot Powerup Parameters")]
-    //[SerializeField]
-    //private GameObject _TripleShotPowerupPrefab;
-    private float _waitTimePowerup = 7.0f;
     [SerializeField]
+    private float _waitTimePowerup = 7.0f;
 
     [Header("General Parameters")]
     private bool _stopSpawning = false;

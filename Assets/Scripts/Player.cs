@@ -45,7 +45,6 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _score;
 
-    [SerializeField]
     private UIManager _uiManager;
 
     void Start()
@@ -130,7 +129,7 @@ public class Player : MonoBehaviour
 
         if(_lives <= 0)
         {
-             _spawnManager.OnPlayerDeath();
+            _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
     }
@@ -172,6 +171,7 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(_waitTime);
         _isShieldsActive = false;
+        _shieldsVisualizer.SetActive(false);
     }
 
     public void AddScore(int points)
