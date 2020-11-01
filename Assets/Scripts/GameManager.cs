@@ -16,8 +16,10 @@ public class GameManager : MonoBehaviour
         {
             // Reload the current game scene
             // Need to add the scene to File-Build Settings-Add Open Scenes
+            // set Build Settings: 0 = "Game" scene, 1 = "Main Menu"
+
             //SceneManager.LoadScene("Game"); 
-            SceneManager.LoadScene(0); // faster than string parameter
+            SceneManager.LoadScene(1); // faster than string parameter
             //_isGameOver = false;
         }
     }
