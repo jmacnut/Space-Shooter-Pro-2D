@@ -43,6 +43,11 @@ public class Player : MonoBehaviour
     private GameObject _shieldsVisualizer;
 
     [SerializeField]
+    private GameObject _leftEngine;
+    [SerializeField]
+    private GameObject _rightEngine;
+
+    [SerializeField]
     private int _score;
 
     private UIManager _uiManager;
@@ -64,6 +69,9 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UIManager is NULL");
         }
+
+        _leftEngine.SetActive(false);
+        _rightEngine.SetActive(false);
     }
 
     void Update()
@@ -125,6 +133,16 @@ public class Player : MonoBehaviour
         }
 
         _lives--;
+
+        if (_lives == 2)
+        {
+            _leftEngine.SetActive(true);
+        }
+        else if (_lives == 1)
+        {
+            _rightEngine.SetActive(true);
+        }
+
         _uiManager.UpdateLives(_lives);
 
         if(_lives <= 0)
