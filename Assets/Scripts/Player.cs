@@ -5,8 +5,7 @@ using UnityEngine;
 
 /// <summary>
 /// Player Movement
-/// This is a reference script, therefore notes have not been refactored out
-/// 
+///
 /// Spawning Laser Objects
 /// - With cool-down system to allow time between spawning (instantiating)
 /// </summary>
