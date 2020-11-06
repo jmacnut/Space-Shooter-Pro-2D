@@ -14,6 +14,9 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private float _speed = 3.0f;
 
+    [SerializeField]
+    private AudioClip _clip;
+
     void Update()
     {
         CalculateMovement();
@@ -36,6 +39,8 @@ public class Powerup : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
+                AudioSource.PlayClipAtPoint(_clip, transform.position);
+
                 switch (this.powerupID)
                 {
                     case 0:

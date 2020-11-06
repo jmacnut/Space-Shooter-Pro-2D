@@ -51,16 +51,29 @@ public class Player : MonoBehaviour
 
     private UIManager _uiManager;
 
+    [SerializeField]
+    private AudioClip _laserSoundClip;
+    private AudioSource _audioSource;
+
     void Start()
     {
         // resets the transform's position for the object 
         // this script is attached to in the Inspector
         transform.position = new Vector3(0f, 0f, 0f);
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            Debug.LogError("AudioSource _audioSource on the player is NULL");
+        }
+        else
+        {
+            _audioSource.clip = _laserSoundClip;
+        }
+
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
-        
         if (_spawnManager == null)
         {
-            Debug.LogError("The Spawn Manager is NULL");
+            Debug.LogError("The Spawn Manager _spawnManater is NULL");
         }
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
@@ -69,8 +82,11 @@ public class Player : MonoBehaviour
             Debug.LogError("The UIManager is NULL");
         }
 
+
+
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
+
     }
 
     void Update()
@@ -96,6 +112,8 @@ public class Player : MonoBehaviour
         {
             Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
         }
+
+        _audioSource.Play();
 
     }
 
@@ -147,6 +165,7 @@ public class Player : MonoBehaviour
         if(_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
+            // play explosion sound
             Destroy(this.gameObject);
         }
     }

@@ -10,7 +10,6 @@ public class Asteroid : MonoBehaviour
     private GameObject _explosionPrefab;
     [SerializeField]
     private SpawnManager _spawnManager;
-
     private Animator _anim;
 
     void Start()
