@@ -23,11 +23,6 @@ public class SpawnManager : MonoBehaviour
     [Header("General Parameters")]
     private bool _stopSpawning = false;
 
-    void Start()
-    {
-        // shoot asteroid to start spawning
-    }
-
     public void StartSpawning()
     {
         StartCoroutine(SpawnEnemyRoutine());

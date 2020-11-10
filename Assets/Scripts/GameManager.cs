@@ -18,9 +18,9 @@ public class GameManager : MonoBehaviour
             // Need to add the scene to File-Build Settings-Add Open Scenes
             // set Build Settings: 0 = "Game" scene, 1 = "Main Menu"
 
+            _isGameOver = false;
             //SceneManager.LoadScene("Game"); 
-            SceneManager.LoadScene(1); // index value is faster than string parameter
-            //_isGameOver = false;
+            SceneManager.LoadScene(1);         // index value is faster than string parameter
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     }
     public void GameOver()
     {
-        Debug.LogError("GameManager::GameOver() - Called");
+        Debug.Log("GameManager::GameOver() - Called");
         _isGameOver = true;
     }
 }

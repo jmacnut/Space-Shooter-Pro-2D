@@ -23,8 +23,8 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if (other.transform.CompareTag("Laser"))
-        if (other.tag == "Laser")
+        //if (other.tag == "Laser")
+        if (other.transform.CompareTag("Laser"))
         {
             // instantiate explosion at the postion of the asteroid (us)
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);

@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-//using TMPro;
 using UnityEngine;
 
 /// <summary>
@@ -57,9 +56,8 @@ public class Player : MonoBehaviour
 
     void Start()
     {
-        // resets the transform's position for the object 
-        // this script is attached to in the Inspector
         transform.position = new Vector3(0f, 0f, 0f);
+
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
         {

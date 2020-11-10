@@ -42,20 +42,10 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-        FireEnemyLaser();
-
-        // fire enemy laser
-        //if (Time.time > _canFire)
-        //{
-        //    _fireRate = Random.Range(3f, 7f);
-        //    _canFire += Time.time + _fireRate;
-        //    GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-        //    Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-        //    foreach (var laser in lasers)
-        //    {
-        //        laser.AssignEnemyLaser();
-        //    }
-        //}
+        if (Time.time > _canFire)
+        {
+            FireEnemyLaser();
+        }
     }
 
     void CalculateMovement()
@@ -64,8 +54,7 @@ public class Enemy : MonoBehaviour
 
         if (transform.position.y <= -5f)
         { 
-            // "respawn" (reuse) at top if was not destroyed
-            // bonus: at a new random x position
+            // "respawn" at random position at top not destroyed
             float randomX = Random.Range(-8.0f, 8.0f);
             transform.position = new Vector3(randomX, 7.0f, 0);
         }
@@ -73,16 +62,13 @@ public class Enemy : MonoBehaviour
 
     void FireEnemyLaser()
     {
-        if (Time.time > _canFire)
+        _fireRate = Random.Range(3f, 7f);
+        _canFire += Time.time + _fireRate;
+        GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+        Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+        foreach (var laser in lasers)
         {
-            _fireRate = Random.Range(3f, 7f);
-            _canFire += Time.time + _fireRate;
-            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
-            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
-            foreach (var laser in lasers)
-            {
-                laser.AssignEnemyLaser();
-            }
+            laser.AssignEnemyLaser();
         }
     }
 

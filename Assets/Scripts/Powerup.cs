@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// ID for Powerups
-
+/// Assign IDs for Powerups
+/// Activate, move, audio
 /// </summary>
 public class Powerup : MonoBehaviour
 {
