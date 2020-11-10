@@ -6,18 +6,20 @@ using UnityEngine.UI;
 public class Enemy : MonoBehaviour
 {
     private Player _player;
-
     [SerializeField]
     private float _speed = 4.0f;
 
-    private Animator _anim;
+    [SerializeField]
+    private GameObject _enemyLaserPrefab;
+    private float _fireRate = 5.0f;
+    private float _canFire = -1f;
 
-    private AudioClip _explosionSound;
+    private Animator _anim;
+    //private AudioClip _explosionSound;
     private AudioSource _audioSource;
 
     private void Start()
     {
-        // caches Player
         _player = GameObject.Find("Player").GetComponent<Player>();
         if (_player == null)
         {
@@ -39,18 +41,48 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         CalculateMovement();
+
+        FireEnemyLaser();
+
+        // fire enemy laser
+        //if (Time.time > _canFire)
+        //{
+        //    _fireRate = Random.Range(3f, 7f);
+        //    _canFire += Time.time + _fireRate;
+        //    GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+        //    Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+        //    foreach (var laser in lasers)
+        //    {
+        //        laser.AssignEnemyLaser();
+        //    }
+        //}
     }
 
     void CalculateMovement()
     {
         transform.Translate(Vector3.down * _speed * Time.deltaTime);
 
-        if (transform.position.y <= -4.5f)
+        if (transform.position.y <= -5f)
         { 
             // "respawn" (reuse) at top if was not destroyed
             // bonus: at a new random x position
             float randomX = Random.Range(-8.0f, 8.0f);
             transform.position = new Vector3(randomX, 7.0f, 0);
+        }
+    }
+
+    void FireEnemyLaser()
+    {
+        if (Time.time > _canFire)
+        {
+            _fireRate = Random.Range(3f, 7f);
+            _canFire += Time.time + _fireRate;
+            GameObject enemyLaser = Instantiate(_enemyLaserPrefab, transform.position, Quaternion.identity);
+            Laser[] lasers = enemyLaser.GetComponentsInChildren<Laser>();
+            foreach (var laser in lasers)
+            {
+                laser.AssignEnemyLaser();
+            }
         }
     }
 
@@ -63,7 +95,7 @@ public class Enemy : MonoBehaviour
             // order matters!
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
-            {
+            { 
                 player.Damage();
             }
             _anim.SetTrigger("OnEnemyDeath");
@@ -84,6 +116,7 @@ public class Enemy : MonoBehaviour
             _anim.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _audioSource.Play();
+            Destroy(GetComponent<Collider2D>());
             Destroy(this.gameObject, 2.8f);
         }
     }

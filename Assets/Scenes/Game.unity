@@ -430,7 +430,7 @@ GameObject:
   - component: {fileID: 395331096}
   - component: {fileID: 395331097}
   m_Layer: 0
-  m_Name: Background
+  m_Name: Background_Audio
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -955,6 +955,7 @@ GameObject:
   - component: {fileID: 836523618}
   - component: {fileID: 836523617}
   - component: {fileID: 836523620}
+  - component: {fileID: 836523622}
   - component: {fileID: 836523621}
   m_Layer: 0
   m_Name: Player
@@ -1180,6 +1181,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!50 &836523622
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 836523616}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &899730967
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1397,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -1756861276609371361, guid: c331a5ed3ae640a4a98b6e54a7a7e27d,
+        type: 3}
+      propertyPath: _spawnManager
+      value: 
+      objectReference: {fileID: 296552550}
     - target: {fileID: 724004248591841307, guid: c331a5ed3ae640a4a98b6e54a7a7e27d,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1513,8 +1540,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1157599083}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.028, y: 0.033, z: 0}
-  m_LocalScale: {x: 1.0737723, y: 1.0670078, z: 1}
+  m_LocalPosition: {x: -0.052, y: -0.039, z: 0}
+  m_LocalScale: {x: 1.0712973, y: 1.0626078, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
@@ -1763,7 +1790,7 @@ Animator:
   m_GameObject: {fileID: 1394898689}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 864e7612b072b9e40b1e537b8d58a0af, type: 2}
+  m_Controller: {fileID: 9100000, guid: e0434b297dde4614b8c1d5948129892a, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

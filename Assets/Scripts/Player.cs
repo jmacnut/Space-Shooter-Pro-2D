@@ -82,8 +82,6 @@ public class Player : MonoBehaviour
             Debug.LogError("The UIManager is NULL");
         }
 
-
-
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
 
@@ -165,7 +163,6 @@ public class Player : MonoBehaviour
         if(_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
-            // play explosion sound
             Destroy(this.gameObject);
         }
     }

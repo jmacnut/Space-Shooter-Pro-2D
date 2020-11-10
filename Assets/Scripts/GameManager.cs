@@ -19,8 +19,14 @@ public class GameManager : MonoBehaviour
             // set Build Settings: 0 = "Game" scene, 1 = "Main Menu"
 
             //SceneManager.LoadScene("Game"); 
-            SceneManager.LoadScene(1); // faster than string parameter
+            SceneManager.LoadScene(1); // index value is faster than string parameter
             //_isGameOver = false;
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            // must build for this to work
+            Application.Quit();
         }
     }
     public void GameOver()

@@ -8,6 +8,7 @@ TagManager:
   - Enemy
   - TripleShotPowerup
   - Asteroid
+  - EnemyLaser
   layers:
   - Default
   - TransparentFX

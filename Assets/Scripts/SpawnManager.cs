@@ -25,6 +25,7 @@ public class SpawnManager : MonoBehaviour
 
     void Start()
     {
+        // shoot asteroid to start spawning
     }
 
     public void StartSpawning()
