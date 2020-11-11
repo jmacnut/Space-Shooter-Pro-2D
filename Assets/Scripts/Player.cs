@@ -35,7 +35,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives = 3;
     [SerializeField]
-    private int _shieldHitCount = 0;   // PH I: Framework - Shield Strength
+    private int _shieldImmunity = 3;   // PH I: Framework - Shield Strength
 
     private SpawnManager _spawnManager;
 
@@ -162,16 +162,16 @@ public class Player : MonoBehaviour
     {
         if (_isShieldsActive == true)
         {
-            if (_shieldHitCount < 2)
+            if (_shieldImmunity > 1)
             {
-                _shieldHitCount++;
-                // display _shieldHitCount over Player
+                _shieldImmunity--;
+                // display _shieldImmunity over Player or in UI
             }
             else
             {
                 _isShieldsActive = false;   // good for a single hit
                 _shieldsVisualizer.SetActive(false);
-                _shieldHitCount = 0;
+                _shieldImmunity = 3;
             }
             return;
         }
