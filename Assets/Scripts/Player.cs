@@ -12,6 +12,9 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
+    private float _currentSpeed;
+    private float _accerationFactor;
+
     [SerializeField]
     private float _speedMultiplier = 2.0f;
 
@@ -57,6 +60,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0f, 0f, 0f);
+        _currentSpeed = _speed;
+        _accerationFactor = 0.05f;
 
         _audioSource = GetComponent<AudioSource>();
         if (_audioSource == null)
@@ -94,6 +99,40 @@ public class Player : MonoBehaviour
         }
     }
 
+    void CalculateMovement()
+    {
+        float horizontalInput = Input.GetAxis("Horizontal");
+        float verticalInput = Input.GetAxis("Vertical");
+
+        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
+
+        // *** Phase I: Thrusters (Hold Left Arrow key down))
+        if (Input.GetKey(KeyCode.LeftArrow))
+        {
+            _currentSpeed += _accerationFactor;
+        }
+        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        {
+            _currentSpeed = _speed;
+        }
+
+        //transform.Translate(direction * _speed * Time.deltaTime);
+        transform.Translate(direction * _currentSpeed * Time.deltaTime);
+
+        // vertical bounds
+        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
+
+        // horizontal bounds
+        if (transform.position.x > 10.28f)
+        {
+            transform.position = new Vector3(-10.28f, transform.position.y, 0);
+        }
+        else if (transform.position.x < -10.28f)
+        {
+            transform.position = new Vector3(10.28f, transform.position.y, 0);
+        }
+    }
+
     void FireLaser()
     {
         _nextFire = Time.time + _fireRate;
@@ -111,29 +150,6 @@ public class Player : MonoBehaviour
 
         _audioSource.Play();
 
-    }
-
-    void CalculateMovement()
-    {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
-
-        Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
-
-        transform.Translate(direction * _speed * Time.deltaTime);
-        
-        // vertical bounds
-        transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.8f, 0), 0);
-
-        // horizontal bounds
-        if (transform.position.x > 10.28f)
-        {
-            transform.position = new Vector3(-10.28f, transform.position.y, 0);
-        }
-        else if (transform.position.x < -10.28f)
-        {
-            transform.position = new Vector3(10.28f, transform.position.y, 0);
-        }
     }
 
     public void Damage()
@@ -158,7 +174,7 @@ public class Player : MonoBehaviour
 
         _uiManager.UpdateLives(_lives);
 
-        if(_lives <= 0)
+        if (_lives <= 0)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
@@ -170,7 +186,7 @@ public class Player : MonoBehaviour
         _isTripleShotActive = true;
         StartCoroutine(TripleShotPowerDownRoutine());
     }
-    
+
     IEnumerator TripleShotPowerDownRoutine()
     {
         yield return new WaitForSeconds(_waitTime);
