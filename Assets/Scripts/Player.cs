@@ -12,6 +12,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 5.0f;
+    [SerializeField]
     private float _currentSpeed;
     private float _accerationFactor;
 
@@ -33,6 +34,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _lives = 3;
+    [SerializeField]
+    private int _shieldHitCount = 0;   // PH I: Framework - Shield Strength
 
     private SpawnManager _spawnManager;
 
@@ -109,7 +112,10 @@ public class Player : MonoBehaviour
         // *** Phase I: Thrusters (Hold Left Arrow key down))
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            _currentSpeed += _accerationFactor;
+            if (_currentSpeed <= 50)
+            {
+                _currentSpeed += _accerationFactor;
+            }
         }
         else if (Input.GetKeyUp(KeyCode.LeftArrow))
         {
@@ -156,8 +162,17 @@ public class Player : MonoBehaviour
     {
         if (_isShieldsActive == true)
         {
-            _isShieldsActive = false;   // good for a single hit
-            _shieldsVisualizer.SetActive(false);
+            if (_shieldHitCount < 2)
+            {
+                _shieldHitCount++;
+                // display _shieldHitCount over Player
+            }
+            else
+            {
+                _isShieldsActive = false;   // good for a single hit
+                _shieldsVisualizer.SetActive(false);
+                _shieldHitCount = 0;
+            }
             return;
         }
 
@@ -211,7 +226,7 @@ public class Player : MonoBehaviour
     {
         _isShieldsActive = true;
         _shieldsVisualizer.SetActive(true);
-        StartCoroutine(ShieldsPowerDownRoutine());
+        //StartCoroutine(ShieldsPowerDownRoutine());
     }
 
     IEnumerator ShieldsPowerDownRoutine()
