@@ -36,6 +36,9 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     [SerializeField]
     private int _shieldImmunity = 3;   // PH I: Framework - Shield Strength
+    //private SpriteRenderer _shieldsSprite;
+    [SerializeField]
+    private GameObject _shieldsVisualizer;
 
     private SpawnManager _spawnManager;
 
@@ -43,8 +46,6 @@ public class Player : MonoBehaviour
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
 
-    [SerializeField]
-    private GameObject _shieldsVisualizer;
 
     [SerializeField]
     private GameObject _leftEngine;
@@ -87,6 +88,14 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UIManager is NULL");
         }
+
+        //_shieldsVisualizer = GetComponent<SpriteRenderer>();
+        //if (_shieldsVisualizer == null)
+        //{
+        //    Debug.LogError("Shield Sprite _shieldSprite is NULL");
+        //}
+
+
 
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
@@ -162,16 +171,19 @@ public class Player : MonoBehaviour
     {
         if (_isShieldsActive == true)
         {
-            if (_shieldImmunity > 1)
+            _shieldImmunity--;
+
+            if (_shieldImmunity == 2)
             {
-                _shieldImmunity--;
-                // display _shieldImmunity over Player or in UI
+                _shieldsVisualizer.transform.localScale = new Vector3(1.653839f, 1.5f, 2);
             }
-            else
+            else if (_shieldImmunity == 1)
             {
-                _isShieldsActive = false;   // good for a single hit
-                _shieldsVisualizer.SetActive(false);
-                _shieldImmunity = 3;
+                _shieldsVisualizer.transform.localScale = new Vector3(1.653839f, 0.75f, 2);
+            }
+            else if (_shieldImmunity <= 0)
+            {
+                StartCoroutine(ShieldsPowerDownRoutine());
             }
             return;
         }
@@ -226,14 +238,17 @@ public class Player : MonoBehaviour
     {
         _isShieldsActive = true;
         _shieldsVisualizer.SetActive(true);
-        //StartCoroutine(ShieldsPowerDownRoutine());
     }
 
     IEnumerator ShieldsPowerDownRoutine()
     {
-        yield return new WaitForSeconds(_waitTime);
+        _waitTime = 1f;
         _isShieldsActive = false;
+        yield return new WaitForSeconds(_waitTime);
         _shieldsVisualizer.SetActive(false);
+        _shieldImmunity = 3;
+        _shieldsVisualizer.transform.localScale = new Vector3(1.653839f, 2, 2);
+        _waitTime = 5f;
     }
 
     public void AddScore(int points)
