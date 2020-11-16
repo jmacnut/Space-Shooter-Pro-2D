@@ -54,6 +54,8 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _score;
+    //[SerializeField]
+    //private int _ammoCount;
 
     private UIManager _uiManager;
 
@@ -65,6 +67,7 @@ public class Player : MonoBehaviour
     {
         transform.position = new Vector3(0f, 0f, 0f);
         _currentSpeed = _speed;
+        //_ammoCount = 15;
         _accerationFactor = 0.05f;
 
         _audioSource = GetComponent<AudioSource>();
@@ -89,14 +92,6 @@ public class Player : MonoBehaviour
             Debug.LogError("The UIManager is NULL");
         }
 
-        //_shieldsVisualizer = GetComponent<SpriteRenderer>();
-        //if (_shieldsVisualizer == null)
-        //{
-        //    Debug.LogError("Shield Sprite _shieldSprite is NULL");
-        //}
-
-
-
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
 
@@ -118,15 +113,15 @@ public class Player : MonoBehaviour
 
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
 
-        // *** Phase I: Thrusters (Hold Left Arrow key down))
-        if (Input.GetKey(KeyCode.LeftArrow))
+        // *** Phase I: Thrusters (Hold Left Shift key down))
+        if (Input.GetKey(KeyCode.LeftShift))
         {
             if (_currentSpeed <= 50)
             {
                 _currentSpeed += _accerationFactor;
             }
         }
-        else if (Input.GetKeyUp(KeyCode.LeftArrow))
+        else if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _currentSpeed = _speed;
         }
@@ -169,6 +164,7 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        // Framework: Shield protects p;ayer from 3 laser hits
         if (_isShieldsActive == true)
         {
             _shieldImmunity--;
@@ -236,6 +232,7 @@ public class Player : MonoBehaviour
 
     public void ActivateShields()
     {
+        // cumulative?
         _isShieldsActive = true;
         _shieldsVisualizer.SetActive(true);
     }
@@ -256,4 +253,10 @@ public class Player : MonoBehaviour
         _score += points;
         _uiManager.UpdateScore(_score);
     }
+
+    //public void DecrementAmmoCount()
+    //{
+    //    _ammoCount--;
+    //    // update UI
+    //}
 }
