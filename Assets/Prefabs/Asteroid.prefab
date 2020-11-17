@@ -136,3 +136,4 @@ MonoBehaviour:
   _rotationSpeed: 20
   _explosionPrefab: {fileID: 4092753142046838386, guid: 3abf32a8473eeda46b789c78e34dc22f,
     type: 3}
+  _player: {fileID: 0}

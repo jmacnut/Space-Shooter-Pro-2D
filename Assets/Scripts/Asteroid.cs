@@ -9,11 +9,16 @@ public class Asteroid : MonoBehaviour
     [SerializeField]
     private GameObject _explosionPrefab;
     private SpawnManager _spawnManager;
+    [SerializeField]
 
     void Start()
     {
         _rotationSpeed = 20.0f;
         _spawnManager = GameObject.Find("Spawn_Manager").GetComponent<SpawnManager>();
+        if (_spawnManager == null)
+        {
+            Debug.Log("Spawn Manager _spawnManager is NULL");
+        }
     }
 
     void Update()
@@ -23,7 +28,6 @@ public class Asteroid : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        //if (other.tag == "Laser")
         if (other.transform.CompareTag("Laser"))
         {
             // instantiate explosion at the postion of the asteroid (us)

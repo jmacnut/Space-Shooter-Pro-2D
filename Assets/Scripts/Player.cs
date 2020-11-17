@@ -36,7 +36,6 @@ public class Player : MonoBehaviour
     private int _lives = 3;
     [SerializeField]
     private int _shieldImmunity = 3;   // PH I: Framework - Shield Strength
-    //private SpriteRenderer _shieldsSprite;
     [SerializeField]
     private GameObject _shieldsVisualizer;
 
@@ -54,20 +53,24 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _score;
-    //[SerializeField]
-    //private int _ammoCount;
+    [SerializeField]
+    private int _ammoCount;   // Framework Ammo Count
+    private bool _isAmmoClipEmpty;
 
     private UIManager _uiManager;
 
+    private AudioSource _audioSource;
     [SerializeField]
     private AudioClip _laserSoundClip;
-    private AudioSource _audioSource;
+    [SerializeField]
+    private AudioClip _outOfAmmoSoundClip;
 
     void Start()
     {
         transform.position = new Vector3(0f, 0f, 0f);
         _currentSpeed = _speed;
-        //_ammoCount = 15;
+        _ammoCount = 16;
+        _isAmmoClipEmpty = true;
         _accerationFactor = 0.05f;
 
         _audioSource = GetComponent<AudioSource>();
@@ -121,12 +124,15 @@ public class Player : MonoBehaviour
                 _currentSpeed += _accerationFactor;
             }
         }
-        else if (Input.GetKeyUp(KeyCode.LeftShift))
+        else if (Input.GetKeyUp(KeyCode.LeftShift) || _isSpeedBoostActive == true)
+        {
+            _currentSpeed = _speed; 
+        }
+        else
         {
             _currentSpeed = _speed;
         }
 
-        //transform.Translate(direction * _speed * Time.deltaTime);
         transform.Translate(direction * _currentSpeed * Time.deltaTime);
 
         // vertical bounds
@@ -145,26 +151,39 @@ public class Player : MonoBehaviour
 
     void FireLaser()
     {
-        _nextFire = Time.time + _fireRate;
-
-        Vector3 offset = new Vector3(0, 1.05f, 0);   // between player and laser launch point
-
-        if (_isTripleShotActive == true)
+        if (_ammoCount > 0)
         {
-            Instantiate(_tripleShotLaserPrefab, transform.position + offset, Quaternion.identity);
+            _nextFire = Time.time + _fireRate;
+            _audioSource.clip = _laserSoundClip;
+            Vector3 offset = new Vector3(0, 1.05f, 0);   // between player and laser launch point
+
+            if (_isTripleShotActive == true)
+            {
+                Instantiate(_tripleShotLaserPrefab, transform.position + offset, Quaternion.identity);
+                DecrementAmmoCount(3);
+            }
+            else
+            {
+                Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+                DecrementAmmoCount(1);
+            }
+            _audioSource.Play();
         }
         else
         {
-            Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
+            Debug.LogError("********** Out of ammo **********");
+            _audioSource.clip = _outOfAmmoSoundClip;
+            _audioSource.Play();
+
+            _isAmmoClipEmpty = true;
         }
 
-        _audioSource.Play();
 
     }
 
     public void Damage()
     {
-        // Framework: Shield protects p;ayer from 3 laser hits
+        // Framework: Shield protects player from 3 laser hits
         if (_isShieldsActive == true)
         {
             _shieldImmunity--;
@@ -254,9 +273,22 @@ public class Player : MonoBehaviour
         _uiManager.UpdateScore(_score);
     }
 
-    //public void DecrementAmmoCount()
-    //{
-    //    _ammoCount--;
-    //    // update UI
-    //}
+    public void DecrementAmmoCount(int numFired)
+    {
+        _ammoCount -= numFired;
+        // update UI
+    }
+
+    public void RestoreAmmoCount()
+    {
+        Debug.Break();
+        // after asteroid is hit and after ammo clip is collected
+        if (_isAmmoClipEmpty == true)
+        {
+            Debug.Break();
+            _ammoCount = 15;
+            _isAmmoClipEmpty = false;
+        }
+        return;
+    }
 }

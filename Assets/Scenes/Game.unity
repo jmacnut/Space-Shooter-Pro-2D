@@ -992,7 +992,9 @@ MonoBehaviour:
   _leftEngine: {fileID: 305453973}
   _rightEngine: {fileID: 518473451}
   _score: 0
+  _ammoCount: 0
   _laserSoundClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _outOfAmmoSoundClip: {fileID: 8300000, guid: 5c0a94bf0c065274b8ee1f2e73cb983b, type: 3}
 --- !u!212 &836523618
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1401,9 +1403,9 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -1756861276609371361, guid: c331a5ed3ae640a4a98b6e54a7a7e27d,
         type: 3}
-      propertyPath: _spawnManager
+      propertyPath: _player
       value: 
-      objectReference: {fileID: 296552550}
+      objectReference: {fileID: 836523617}
     - target: {fileID: 724004248591841307, guid: c331a5ed3ae640a4a98b6e54a7a7e27d,
         type: 3}
       propertyPath: m_LocalPosition.x
