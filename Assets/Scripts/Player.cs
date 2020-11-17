@@ -173,6 +173,7 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("********** Out of ammo **********");
             _audioSource.clip = _outOfAmmoSoundClip;
+            _audioSource.volume = 100;
             _audioSource.Play();
 
             _isAmmoClipEmpty = true;
