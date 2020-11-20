@@ -34,12 +34,12 @@ public class Powerup : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.CompareTag("Player"))
         {
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
-                AudioSource.PlayClipAtPoint(_clip, transform.position);
+                AudioSource.PlayClipAtPoint(_clip, transform.position, 5f);
 
                 switch (this.powerupID)
                 {
@@ -54,6 +54,9 @@ public class Powerup : MonoBehaviour
                     case 2:
                         Debug.Log("Collected Shield");
                         player.ActivateShields();
+                        break;
+                    case 3:
+                        Debug.Log("Collected Ammo Refill");
                         break;
                     default:
                         Debug.Log("Invalid powerupID");
