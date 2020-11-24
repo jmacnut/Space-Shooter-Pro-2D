@@ -10,6 +10,9 @@ public class UIManager : MonoBehaviour
     private Text _scoreText;
 
     [SerializeField]
+    private Text _ammoCountText;
+
+    [SerializeField]
     private Image _livesImg;
 
     [SerializeField]
@@ -51,6 +54,11 @@ public class UIManager : MonoBehaviour
         {
             GameOverSequence();
         }
+    }
+
+    public void UpdateAmmoCount(int ammoCount)
+    {
+        _ammoCountText.text = "Ammo: " + ammoCount;
     }
 
     void GameOverSequence()

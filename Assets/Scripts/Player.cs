@@ -33,7 +33,10 @@ public class Player : MonoBehaviour
     private float _waitTime = 5.0f;
 
     [SerializeField]
-    private int _lives = 3;
+    private int _lives;
+    private int _maxLives = 3;
+    private bool _healthDown;   // PH I: Framework - Health Collectable
+
     [SerializeField]
     private int _shieldImmunity = 3;   // PH I: Framework - Shield Strength
     [SerializeField]
@@ -53,9 +56,10 @@ public class Player : MonoBehaviour
 
     [SerializeField]
     private int _score;
+    private int _maxAmmoCount = 15;
     [SerializeField]
     private int _ammoCount;   // Framework Ammo Count
-    private bool _isAmmoClipEmpty;
+    //private bool _isAmmoClipEmpty;
 
     private UIManager _uiManager;
 
@@ -68,9 +72,10 @@ public class Player : MonoBehaviour
     void Start()
     {
         transform.position = new Vector3(0f, 0f, 0f);
+        _lives = _maxLives;
         _currentSpeed = _speed;
-        _ammoCount = 16;
-        _isAmmoClipEmpty = true;
+        _ammoCount = _maxAmmoCount;   // ToDo: initialize to 15 after asteroid is hit
+        //_isAmmoClipEmpty = true;
         _accerationFactor = 0.05f;
 
         _audioSource = GetComponent<AudioSource>();
@@ -97,6 +102,8 @@ public class Player : MonoBehaviour
 
         _leftEngine.SetActive(false);
         _rightEngine.SetActive(false);
+
+        _uiManager.UpdateAmmoCount(_maxAmmoCount);
 
     }
 
@@ -161,11 +168,13 @@ public class Player : MonoBehaviour
             {
                 Instantiate(_tripleShotLaserPrefab, transform.position + offset, Quaternion.identity);
                 DecrementAmmoCount(3);
+                _uiManager.UpdateAmmoCount(_ammoCount);
             }
             else
             {
                 Instantiate(_laserPrefab, transform.position + offset, Quaternion.identity);
                 DecrementAmmoCount(1);
+                _uiManager.UpdateAmmoCount(_ammoCount);
             }
             _audioSource.Play();
         }
@@ -176,7 +185,7 @@ public class Player : MonoBehaviour
             _audioSource.volume = 100;
             _audioSource.Play();
 
-            _isAmmoClipEmpty = true;
+            //_isAmmoClipEmpty = true;
         }
 
 
@@ -268,6 +277,16 @@ public class Player : MonoBehaviour
         _waitTime = 5f;
     }
 
+    public void ActivateSecondaryFire()
+    {
+
+    }
+
+    IEnumerator SecondaryFireRoutine()
+    {
+        yield return null; // keep active for 5 seconds
+    }
+
     public void AddScore(int points)
     {
         _score += points;
@@ -277,19 +296,26 @@ public class Player : MonoBehaviour
     public void DecrementAmmoCount(int numFired)
     {
         _ammoCount -= numFired;
-        // update UI
     }
 
     public void RestoreAmmoCount()
     {
-        Debug.Break();
         // after asteroid is hit and after ammo clip is collected
-        if (_isAmmoClipEmpty == true)
+        if (_ammoCount < _maxAmmoCount)
         {
-            Debug.Break();
-            _ammoCount = 15;
-            _isAmmoClipEmpty = false;
+            _ammoCount = _maxAmmoCount;
+            _uiManager.UpdateAmmoCount(_ammoCount);
+            //_isAmmoClipEmpty = false;
         }
         return;
+    }
+
+    public void RestoreHealth()
+    {
+        if (_lives < 3)
+        {
+            _lives++;
+            _uiManager.UpdateLives(_lives);
+        }
     }
 }

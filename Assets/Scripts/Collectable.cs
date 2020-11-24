@@ -2,14 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// Assign IDs for Powerups
-/// Activate, move, audio
-/// </summary>
-public class Powerup : MonoBehaviour
+public class Collectable : MonoBehaviour
 {
     [SerializeField]
-    private int powerupID; // 0 = Triple Shot, 1 = Speed, 2 = Shields
+    private int collectableID; // 0 = Ammo, 1 = Health, 2 = TBD
 
     [SerializeField]
     private float _speed = 3.0f;
@@ -39,24 +35,24 @@ public class Powerup : MonoBehaviour
             Player player = other.transform.GetComponent<Player>();
             if (player != null)
             {
-                AudioSource.PlayClipAtPoint(_clip, transform.position, 5f);
+                AudioSource.PlayClipAtPoint(_clip, transform.position, 2000f);
 
-                switch (this.powerupID)
+                switch (this.collectableID)
                 {
                     case 0:
-                        Debug.Log("Collected Triple Shot");
-                        player.ActivateTripleShot();
+                        Debug.Log("Collected Ammo Refill");
+                        player.RestoreAmmoCount();
                         break;
                     case 1:
-                        Debug.Log("Collected Speed Boost");
-                        player.ActivateSpeedBoost();
+                        Debug.Log("Collected Health");
+                        player.RestoreHealth();
                         break;
-                    case 2:
-                        Debug.Log("Collected Shield");
-                        player.ActivateShields();
-                        break;
+                    //case 2:
+                    //    Debug.Log("Collected TBD");
+                    //    //player.ActivateTBDCollectable();
+                    //    break;
                     default:
-                        Debug.Log("Invalid powerupID");
+                        Debug.Log("Invalid collectableID");
                         break;
                 }
             }

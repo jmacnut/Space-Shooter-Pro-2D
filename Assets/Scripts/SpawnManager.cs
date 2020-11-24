@@ -16,9 +16,13 @@ public class SpawnManager : MonoBehaviour
     [Header("Powerup Parameters")]
     [SerializeField]
     private GameObject[] _powerupPrefabs;
-
     [SerializeField]
     private float _waitTimePowerup = 7.0f;
+
+    [Header("Collectable Parameters")]
+    [SerializeField]
+    private GameObject[] _collectablePrefabs;
+    private float _waitTimeCollectable = 7.0f;
 
     [Header("General Parameters")]
     private bool _stopSpawning = false;
@@ -27,6 +31,7 @@ public class SpawnManager : MonoBehaviour
     {
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
+        StartCoroutine(SpawnCollectableRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -52,6 +57,20 @@ public class SpawnManager : MonoBehaviour
             GameObject newPowerup = Instantiate(_powerupPrefabs[randomPowerupIndex], spawnPos, Quaternion.identity);
             _waitTimePowerup = Random.Range(3, 8);   // 3 to 7 seconds
             yield return new WaitForSeconds(_waitTimePowerup);
+        }
+    }
+
+    IEnumerator SpawnCollectableRoutine()
+    {
+        yield return new WaitForSeconds(3.0f);
+
+        while (_stopSpawning == false)
+        {
+            Vector3 spawnPos = new Vector3(Random.Range(-8.0f, 8.0f), 7.0f, 0f);
+            int randomPowerupIndex = Random.Range(0, 2);   // increase for additional collectables
+            GameObject newPowerup = Instantiate(_collectablePrefabs[randomPowerupIndex], spawnPos, Quaternion.identity);
+            _waitTimeCollectable = Random.Range(3, 8);   // 3 to 7 seconds
+            yield return new WaitForSeconds(_waitTimeCollectable);
         }
     }
 
