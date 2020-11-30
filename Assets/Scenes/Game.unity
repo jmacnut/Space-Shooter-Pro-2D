@@ -236,6 +236,7 @@ MonoBehaviour:
   - {fileID: 4669290701637386451, guid: 79a4b40d38cb40b49926384a950b6867, type: 3}
   - {fileID: 3142580827187810075, guid: a5ad1370361ab6447b10b8ead7aaadd1, type: 3}
   - {fileID: 4002722213908323386, guid: 4493ae9c3e0079940b49f1ebd1ebccee, type: 3}
+  - {fileID: 8192160407612042836, guid: 511b1b44622c83b4da37529e59b40b55, type: 3}
   _waitTimePowerup: 7
   _collectablePrefabs:
   - {fileID: 2661929684805809109, guid: 3f3e35f644b5716458bc4ce17fa04a0e, type: 3}
@@ -1066,6 +1067,8 @@ MonoBehaviour:
   _laserPrefab: {fileID: 6539909255632243516, guid: 40413c8b3c559634f9a922ae61e1eb6d,
     type: 3}
   _tripleShotLaserPrefab: {fileID: 6121435170940051529, guid: a79bbf643aa990a43847401a10dd4a80,
+    type: 3}
+  _octoShotLaserPrefab: {fileID: 8192160407612042836, guid: 4aa5f5e9802037c47b39b2b99441795c,
     type: 3}
   _fireRate: 0.15
   _nextFire: 0

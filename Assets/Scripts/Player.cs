@@ -23,6 +23,8 @@ public class Player : MonoBehaviour
     private GameObject _laserPrefab;   // from Prefabs folder (not heirarchy!)
     [SerializeField]
     private GameObject _tripleShotLaserPrefab;
+    [SerializeField]
+    private GameObject _octoShotLaserPrefab;   // Framework: secondary fire
 
     [SerializeField]
     private float _fireRate = 0.15f;
@@ -35,10 +37,10 @@ public class Player : MonoBehaviour
     [SerializeField]
     private int _lives;
     private int _maxLives = 3;
-    private bool _healthDown;   // PH I: Framework - Health Collectable
+    private bool _healthDown;   // Framework: Health Collectable
 
     [SerializeField]
-    private int _shieldImmunity = 3;   // PH I: Framework - Shield Strength
+    private int _shieldImmunity = 3;   // Framework: Shield Strength
     [SerializeField]
     private GameObject _shieldsVisualizer;
 
@@ -47,6 +49,7 @@ public class Player : MonoBehaviour
     private bool _isTripleShotActive = false;
     private bool _isSpeedBoostActive = false;
     private bool _isShieldsActive = false;
+    private bool _isOctoShotActive = false;   // Framework: secondary fire
 
 
     [SerializeField]
@@ -164,7 +167,14 @@ public class Player : MonoBehaviour
             _audioSource.clip = _laserSoundClip;
             Vector3 offset = new Vector3(0, 1.05f, 0);   // between player and laser launch point
 
-            if (_isTripleShotActive == true)
+            if (_isOctoShotActive == true)
+            {
+                Instantiate(_octoShotLaserPrefab, transform.position, Quaternion.identity);
+                // free ammo!
+                //DecrementAmmoCount(8);
+                //_uiManager.UpdateAmmoCount(_ammoCount);
+            }
+            else if (_isTripleShotActive == true)
             {
                 Instantiate(_tripleShotLaserPrefab, transform.position + offset, Quaternion.identity);
                 DecrementAmmoCount(3);
@@ -277,14 +287,18 @@ public class Player : MonoBehaviour
         _waitTime = 5f;
     }
 
-    public void ActivateSecondaryFire()
+    // Framework: Secondary Fire
+    public void ActivateOctoShot()
     {
-
+        _isOctoShotActive = true;
+        StartCoroutine(OctoShotPowerDownRoutine());
     }
 
-    IEnumerator SecondaryFireRoutine()
+    // Framework: Secondary Fire
+    IEnumerator OctoShotPowerDownRoutine()
     {
-        yield return null; // keep active for 5 seconds
+        yield return new WaitForSeconds(_waitTime);
+        _isOctoShotActive = false;
     }
 
     public void AddScore(int points)

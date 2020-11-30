@@ -9,7 +9,7 @@ using UnityEngine;
 public class Powerup : MonoBehaviour
 {
     [SerializeField]
-    private int powerupID; // 0 = Triple Shot, 1 = Speed, 2 = Shields
+    private int powerupID; // 0 = Triple Shot, 1 = Speed, 2 = Shields, 3 = Octo Shot
 
     [SerializeField]
     private float _speed = 3.0f;
@@ -44,16 +44,20 @@ public class Powerup : MonoBehaviour
                 switch (this.powerupID)
                 {
                     case 0:
-                        Debug.Log("Collected Triple Shot");
+                        Debug.Log("Collected Triple Shot Powerup");
                         player.ActivateTripleShot();
                         break;
                     case 1:
-                        Debug.Log("Collected Speed Boost");
+                        Debug.Log("Collected Speed Boost Powerup");
                         player.ActivateSpeedBoost();
                         break;
                     case 2:
-                        Debug.Log("Collected Shield");
+                        Debug.Log("Collected Shield Powerup");
                         player.ActivateShields();
+                        break;
+                    case 3:   // Secondary Fire
+                        Debug.Log("Collected Octo Shot Powerup");
+                        player.ActivateOctoShot();
                         break;
                     default:
                         Debug.Log("Invalid powerupID");
